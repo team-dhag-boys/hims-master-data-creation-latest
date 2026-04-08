@@ -1,44 +1,40 @@
 package com.hims.masters.common.services.impl;
 
-import com.hims.masters.apiresponse.ApiResponse;
 import com.hims.masters.common.dto.request.PrefixListRequestDto;
 import com.hims.masters.common.dto.request.PrefixRequestDto;
 import com.hims.masters.common.entity.Prefix;
 import com.hims.masters.common.repository.PrefixRepository;
 import com.hims.masters.common.services.PrefixService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import com.hims.masters.utils.ApiResponseFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class PrefixServiceImpl implements PrefixService {
-    @Autowired
-    private PrefixRepository prefixRepository;
+    private final PrefixRepository prefixRepository;
+    private final ApiResponseFactory apiResponseFactory;
 
-    @Override
-    public ResponseEntity<?> prefixDropDown() {
-        var response = new ApiResponse<>();
-        List<Map<String, Object>> list = prefixRepository.getPrefixDropDown();
-        if (!list.isEmpty()) {
-            response.setMessage("Prefix List");
-            response.setResult(list);
-            response.setStatusCode(HttpStatus.OK.value());
-        } else {
-            response.setMessage("Prefix List not found");
-            response.setStatusCode(HttpStatus.NOT_FOUND.value());
-        }
-
-        return ResponseEntity.ok(response);
+    public PrefixServiceImpl(PrefixRepository prefixRepository, ApiResponseFactory apiResponseFactory) {
+        this.prefixRepository = prefixRepository;
+        this.apiResponseFactory = apiResponseFactory;
     }
 
     @Override
-    public ResponseEntity<?> savePrefix(PrefixRequestDto dto) {
-        var response = new ApiResponse<>();
+    public ResponseEntity<?> prefixDropDown() {
+        List<Map<String, Object>> list = prefixRepository.getPrefixDropDown();
+        if (!list.isEmpty()) {
+            return apiResponseFactory.ok("Prefix List", list, null);
+        }
+        return apiResponseFactory.notFound("Prefix List not found");
+    }
 
+    @Override
+    @Transactional
+    public ResponseEntity<?> savePrefix(PrefixRequestDto dto) {
         var prefix = new Prefix();
         prefix.setPrefixName(dto.getPrefixName());
         prefix.setPrefixCode(dto.getPrefixCode());
@@ -47,73 +43,68 @@ public class PrefixServiceImpl implements PrefixService {
         prefix.setGenderPrefix(dto.getGenderPrefix());
 
         prefixRepository.save(prefix);
-        response.setMessage("Prefix saved");
-        response.setStatusCode(HttpStatus.OK.value());
-
-        return ResponseEntity.ok(response);
+        return apiResponseFactory.ok("Prefix saved");
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> updatePrefix(PrefixRequestDto dto) {
-        var response = new ApiResponse<>();
-
-        if (dto.getId() != null) {
-            prefixRepository.prefixUpdate(dto.getId(), dto.getPrefixCode(), dto.getPrefixName(), dto.getActive(), dto.getGenderPrefix() != null ? dto.getGenderPrefix().getId() : null);
-            response.setMessage("Prefix updated");
-            response.setStatusCode(HttpStatus.OK.value());
-        } else {
-            response.setMessage("Prefix id is null");
-            response.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        if (dto.getId() == null) {
+            return apiResponseFactory.badRequest("Prefix id is null");
         }
-        return ResponseEntity.ok(response);
+        prefixRepository.prefixUpdate(dto.getId(), dto.getPrefixCode(), dto.getPrefixName(), dto.getActive(), dto.getGenderPrefix() != null ? dto.getGenderPrefix().getId() : null);
+        return apiResponseFactory.ok("Prefix updated");
     }
 
     @Override
     public ResponseEntity<?> getPrefixById(Long id) {
-        var response = new ApiResponse<>();
-
-        if (id != null) {
-            response.setResult(prefixRepository.prefixGetById(id));
-            response.setMessage("Prefix details by id");
-            response.setStatusCode(HttpStatus.OK.value());
-        } else {
-            response.setMessage("Prefix id is null");
-            response.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        if (id == null) {
+            return apiResponseFactory.badRequest("Prefix id is null");
         }
-        return ResponseEntity.ok(response);
+        Map<String, Object> result = prefixRepository.prefixGetById(id);
+        if (result == null || result.isEmpty()) {
+            return apiResponseFactory.notFound("Prefix details not found");
+        }
+        return apiResponseFactory.ok("Prefix details by id", result, null);
     }
 
     @Override
     public ResponseEntity<?> autocomplete(String searchString) {
-        var response = new ApiResponse<>();
-
-        if (searchString != null) {
-            response.setResult(prefixRepository.prefixAutocomplete(searchString));
-            response.setMessage("Prefix details found");
-            response.setStatusCode(HttpStatus.OK.value());
-        } else {
-            response.setMessage("Prefix details not found");
-            response.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        if (searchString == null || searchString.isBlank()) {
+            return apiResponseFactory.badRequest("Search string is required");
         }
-        return ResponseEntity.ok(response);
+        List<Map<String, Object>> result = prefixRepository.prefixAutocomplete(searchString);
+        if (result == null || result.isEmpty()) {
+            return apiResponseFactory.notFound("Prefix details not found");
+        }
+        return apiResponseFactory.ok("Prefix details found", result, null);
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> prefixList(PrefixListRequestDto dto) {
-        var response = new ApiResponse<>();
+        int page = dto.getPage() < 0 ? -1 : dto.getPage();
+        int size = dto.getSize() <= 0 ? 20 : Math.min(dto.getSize(), 100);
+
+        if (page < 0) {
+            return apiResponseFactory.badRequest("Page should be greater than or equal to 0");
+        }
 
         Long count = prefixRepository.prefixListingCount(dto.getSearchString());
 
-        if (count > 0) {
-            response.setResult(prefixRepository.prefixListing(dto.getPage(), dto.getSize(), dto.getSearchString()));
-            response.setMessage("Prefix list found");
-            response.setCount(count);
-            response.setStatusCode(HttpStatus.OK.value());
-        } else {
-            response.setMessage("Prefix list not found");
-            response.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        if (count == null || count <= 0) {
+            return apiResponseFactory.notFound("Prefix list not found");
         }
-        return ResponseEntity.ok(response);
+        return apiResponseFactory.ok("Prefix list found", prefixRepository.prefixListing(page, size, dto.getSearchString()), count);
+    }
+
+    @Override
+    public ResponseEntity<?> deletePrefix(Long id) {
+        if (id == null) {
+            return apiResponseFactory.badRequest("Prefix id is null");
+        }
+        prefixRepository.prefixDelete(id);
+        return apiResponseFactory.ok("Prefix deleted");
     }
 
 }

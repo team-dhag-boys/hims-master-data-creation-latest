@@ -2,6 +2,8 @@ package com.hims.masters.employee.entity;
 
 import com.hims.masters.base.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,13 +17,21 @@ public class EmployeeCategory extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Boolean active;
+    @NotNull(message = "active status can not be null")
+    private Boolean active = true;
 
-
+    @NotBlank(message = "Category can not be blank")
+    @Column(name = "category", length = 50, unique = true)
     private String category;
 
-    private String categoryCode;
+    @NotBlank(message = "Code can not be blank")
+    @Column(name = "code", unique = true)
+    private String code;
 
-    private Boolean deleteFlag;
+    @ManyToOne
+    @JoinColumn(name = "employee_type_id")
+    private EmployeeType employeeType;
+
+    private Boolean deleteFlag = false;
 
 }

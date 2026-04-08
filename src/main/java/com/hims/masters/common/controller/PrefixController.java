@@ -4,7 +4,6 @@ import com.hims.masters.common.dto.request.PrefixListRequestDto;
 import com.hims.masters.common.dto.request.PrefixRequestDto;
 import com.hims.masters.common.services.PrefixService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/prefix")
 public class PrefixController {
-    @Autowired
-    private PrefixService prefixService;
+    private final PrefixService prefixService;
+
+    public PrefixController(PrefixService prefixService) {
+        this.prefixService = prefixService;
+    }
 
     @PostMapping("save")
     public ResponseEntity<?> savePrefix(@Valid @RequestBody PrefixRequestDto dto) {
@@ -43,6 +45,11 @@ public class PrefixController {
     @PostMapping("/list")
     public ResponseEntity<?> prefixList(@RequestBody PrefixListRequestDto dto) {
         return prefixService.prefixList(dto);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deletePrefix(@PathVariable("id") Long id) {
+        return prefixService.deletePrefix(id);
     }
 
 }

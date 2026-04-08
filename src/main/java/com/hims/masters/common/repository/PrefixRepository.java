@@ -16,7 +16,7 @@ public interface PrefixRepository extends JpaRepository<Prefix, Long> {
     @Query(value = "select * from fn_mt_prefix_update(?1,?2,?3,?4,?5)", nativeQuery = true)
     void prefixUpdate(Long id, String prefixCode, String prefixName, Boolean active, Long genderId);
 
-    @Query(value = "select * from fn_mt_prefix_get_by_id.sql(?1)", nativeQuery = true)
+    @Query(value = "select * from fn_mt_prefix_get_by_id(?1)", nativeQuery = true)
     Map<String, Object> prefixGetById(Long id);
 
     @Query(value = "select * from fn_mt_prefix_autocomplete(?1)", nativeQuery = true)
@@ -28,5 +28,7 @@ public interface PrefixRepository extends JpaRepository<Prefix, Long> {
     @Query(value = "select * from fn_mt_prefix_listing(?1,?2,?3)", nativeQuery = true)
     List<Map<String, Object>> prefixListing(int page,int size,String searchString);
 
+    @Query(value = "select * from fn_mt_prefix_delete(?1)", nativeQuery = true)
+    void prefixDelete(Long id);
 
 }

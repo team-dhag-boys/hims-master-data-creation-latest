@@ -18,4 +18,6 @@ public interface PrefixService {
     ResponseEntity<?> autocomplete(String searchString);
 
     ResponseEntity<?> prefixList(PrefixListRequestDto dto);
+
+    ResponseEntity<?> deletePrefix(Long id);
 }

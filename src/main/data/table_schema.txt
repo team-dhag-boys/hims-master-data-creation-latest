@@ -1,0 +1,711 @@
+"CREATE TABLE IF NOT EXISTS public.mt_employee_type
+(
+    id bigint NOT NULL DEFAULT nextval('mt_employee_type_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    applicable_to_doctor_type boolean,
+    delete_flag boolean,
+    employee_type character varying(50) COLLATE pg_catalog.""default"" NOT NULL,
+    is_clinical boolean NOT NULL,
+    is_doctor boolean,
+    created_by bigint,
+    last_modified_by bigint,
+    CONSTRAINT mt_employee_type_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_pcp5v66h2hcl49m19j3n8qi0m UNIQUE (employee_type),
+    CONSTRAINT fk8thhkwhiv8da8y57d7fa4arvq FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fknwhj1yxly8ihndces6uw56fhr FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)"
+"CREATE TABLE IF NOT EXISTS public.mt_employee_category
+(
+    id bigint NOT NULL DEFAULT nextval('mt_employee_category_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    category character varying(50) COLLATE pg_catalog.""default"" NOT NULL,
+    code character varying(255) COLLATE pg_catalog.""default"" NOT NULL,
+    delete_flag boolean,
+    created_by bigint,
+    last_modified_by bigint,
+    employee_type_id bigint,
+    CONSTRAINT mt_employee_category_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_6w58wf4jfre6bxk7n3e3utc09 UNIQUE (category),
+    CONSTRAINT uk_kruj839iriky2qiueilvh4gxu UNIQUE (code),
+    CONSTRAINT fka4wdu4wd8phbj8pvnmk2lm0a5 FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fksu7m6ftvo19ffvh94b31f6u7n FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkswvmyeepu21u1rck3lmsqjf0c FOREIGN KEY (employee_type_id)
+        REFERENCES public.mt_employee_type (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)"
+"CREATE TABLE IF NOT EXISTS public.mt_prefix
+(
+    id bigint NOT NULL DEFAULT nextval('mt_prefix_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    delete_flag boolean,
+    prefix_code character varying(10) COLLATE pg_catalog.""default"" NOT NULL,
+    prefix_name character varying(15) COLLATE pg_catalog.""default"",
+    created_by bigint,
+    last_modified_by bigint,
+    gender_prefix bigint,
+    CONSTRAINT mt_prefix_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_a5dvkuerpp3khia3k6l7469vh UNIQUE (prefix_code),
+    CONSTRAINT uk_t2cinquew51h4we1vhotsr5p3 UNIQUE (prefix_name),
+    CONSTRAINT fk7jeu980966rsmkjrni0nvyipk FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkkk4cpy5xftwxvvkxvrydarx6v FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkllsn6065kebc7dh1earwsrp6j FOREIGN KEY (gender_prefix)
+        REFERENCES public.mt_gender (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+"
+"CREATE TABLE IF NOT EXISTS public.mt_marital_status
+(
+    id bigint NOT NULL DEFAULT nextval('mt_marital_status_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    delete_flag boolean,
+    marital_status_code character varying(10) COLLATE pg_catalog.""default"" NOT NULL,
+    marital_status_name character varying(25) COLLATE pg_catalog.""default"",
+    created_by bigint,
+    last_modified_by bigint,
+    CONSTRAINT mt_marital_status_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_8oq3n0j8mkytlkb96cocaj0se UNIQUE (marital_status_name),
+    CONSTRAINT uk_g7dt5q1f2ekkgyovq2m8pvqeu UNIQUE (marital_status_code),
+    CONSTRAINT fk8dumn8b2d6qmyyl48aktc88vq FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkefbdc8n1jamv1fnxg3av5ur99 FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+"
+"CREATE TABLE IF NOT EXISTS public.mt_blood_group
+(
+    id bigint NOT NULL DEFAULT nextval('mt_blood_group_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    blood_group_code character varying(10) COLLATE pg_catalog.""default"" NOT NULL,
+    blood_group_name character varying(10) COLLATE pg_catalog.""default"",
+    delete_flag boolean,
+    created_by bigint,
+    last_modified_by bigint,
+    CONSTRAINT mt_blood_group_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_lewaq08ry6ofrtbti5mqfw6vb UNIQUE (blood_group_code),
+    CONSTRAINT uk_r71mg8y9f1a0kxlc6npy3q47o UNIQUE (blood_group_name),
+    CONSTRAINT fk96ddgmd1tdx1exo9anyqyby9p FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkanipq27m8f92moqq9trqyracd FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+"
+"CREATE TABLE IF NOT EXISTS public.mt_nationality
+(
+    id bigint NOT NULL DEFAULT nextval('mt_nationality_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    delete_flag boolean,
+    nationality_code character varying(255) COLLATE pg_catalog.""default"" NOT NULL,
+    nationality_name character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    created_by bigint,
+    last_modified_by bigint,
+    CONSTRAINT mt_nationality_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_619jch3hq9shrvod96ox995n1 UNIQUE (nationality_code),
+    CONSTRAINT uk_gc80k21hb0vxwkvg6m6942ta8 UNIQUE (nationality_name),
+    CONSTRAINT fk17f6s5x3sneg85lrivy1qhk15 FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fknd4do1cwo2lqsllivb3t4b7gt FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)"
+"CREATE TABLE IF NOT EXISTS public.mt_country
+(
+    id bigint NOT NULL DEFAULT nextval('mt_country_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    country_code character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    country_name character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    delete_flag boolean,
+    is_default boolean,
+    isd_code character varying(10) COLLATE pg_catalog.""default"" NOT NULL,
+    mobile_length character varying(15) COLLATE pg_catalog.""default"",
+    created_by bigint,
+    last_modified_by bigint,
+    CONSTRAINT mt_country_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_4yxph9hrk0yjs29l3d0vmdwmo UNIQUE (country_name),
+    CONSTRAINT uk_inukyy2n9wuxxq1t0hrggmdkf UNIQUE (isd_code),
+    CONSTRAINT uk_ma154vw4udpr0gmqlfafiabun UNIQUE (country_code),
+    CONSTRAINT fkaqi900cey8lgf0axthq1y7nvq FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkf3ycpg2kb60j8xnoj8nk1qmpm FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+"
+"
+CREATE TABLE IF NOT EXISTS public.mt_state
+(
+    id bigint NOT NULL DEFAULT nextval('mt_state_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    delete_flag boolean,
+    state_code character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    state_name character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    created_by bigint,
+    last_modified_by bigint,
+    country_id bigint,
+    CONSTRAINT mt_state_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_23p4fjpgc4fslckbs921j3r28 UNIQUE (state_code),
+    CONSTRAINT uk_6tybvyj2sunhx8voa0kbjs0wq UNIQUE (state_name),
+    CONSTRAINT fkhf7nkskokcveia3730a1m7dii FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkm8fensyk78imoxo412cxt4qv FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkqq5vwhuyugfw4je04pxanbuxg FOREIGN KEY (country_id)
+        REFERENCES public.mt_country (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)"
+"CREATE TABLE IF NOT EXISTS public.mt_district
+(
+    id bigint NOT NULL DEFAULT nextval('mt_district_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    delete_flag boolean,
+    district_code character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    district_name character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    created_by bigint,
+    last_modified_by bigint,
+    state_id bigint,
+    CONSTRAINT mt_district_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_ims7a1f0ptq28edbtauawg74u UNIQUE (district_code),
+    CONSTRAINT uk_lqbp9mh7vw58071u7cb60amo7 UNIQUE (district_name),
+    CONSTRAINT fkouonhgetkyyxivlv2hk0al5dp FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkq4src9todvtai1rtngsfnnp2x FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkr1596f07afvdt7xlvcnl7ybis FOREIGN KEY (state_id)
+        REFERENCES public.mt_state (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)"
+"CREATE TABLE IF NOT EXISTS public.mt_taluka
+(
+    id bigint NOT NULL DEFAULT nextval('mt_taluka_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    delete_flag boolean,
+    taluka_code character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    taluka_name character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    created_by bigint,
+    last_modified_by bigint,
+    district_id bigint,
+    CONSTRAINT mt_taluka_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_it2s42iuabs7c1iosf5xh615f UNIQUE (taluka_name),
+    CONSTRAINT uk_my2b4detd4v4bs317aanmphlo UNIQUE (taluka_code),
+    CONSTRAINT fkhoxnno8qhb7vbc6hg5xn4sn87 FOREIGN KEY (district_id)
+        REFERENCES public.mt_district (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkluuulcji6lq9w5msy1vc441ei FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkwpi8x3uk79bcxqmbjy6i5tt2 FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+"
+"CREATE TABLE IF NOT EXISTS public.mt_city
+(
+    id bigint NOT NULL DEFAULT nextval('mt_city_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    city_code character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    city_name character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    delete_flag boolean,
+    created_by bigint,
+    last_modified_by bigint,
+    taluka_id bigint,
+    state_id bigint,
+    CONSTRAINT mt_city_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_da7ggblqgf4jp7ewc0eijoanv UNIQUE (city_code),
+    CONSTRAINT fk2h9hffdk085shq9rbvedpjiew FOREIGN KEY (taluka_id)
+        REFERENCES public.mt_taluka (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk9720r1gl4efkl1j65v11q01qq FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkon0sec3ut0i5pttjusbphbrxl FOREIGN KEY (state_id)
+        REFERENCES public.mt_state (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkp436nh6ukt173qbx57ayxq774 FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+"
+"CREATE TABLE IF NOT EXISTS public.mt_area
+(
+    id bigint NOT NULL DEFAULT nextval('mt_area_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    area character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    delete_flag boolean,
+    created_by bigint,
+    last_modified_by bigint,
+    pincode_id bigint,
+    CONSTRAINT mt_area_pkey PRIMARY KEY (id),
+    CONSTRAINT fkfv2p909xcytlbng034ioa3tqo FOREIGN KEY (pincode_id)
+        REFERENCES public.mt_pin_code (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkh3dipbnh05usssgno6090t727 FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkqxmdyskrsdq0l2w220i925mv6 FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+"
+"CREATE TABLE IF NOT EXISTS public.mt_pin_code
+(
+    id bigint NOT NULL DEFAULT nextval('mt_pin_code_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    delete_flag boolean,
+    pin_code integer NOT NULL,
+    created_by bigint,
+    last_modified_by bigint,
+    city_id bigint,
+    CONSTRAINT mt_pin_code_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_91t7jyof3t86e98c7bsg84yw2 UNIQUE (pin_code),
+    CONSTRAINT fk57e5rnxji36cs7bc04gka2vkr FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkexkuclql96x6ccnnb64o1ugj7 FOREIGN KEY (city_id)
+        REFERENCES public.mt_city (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkjogmkmqx6lbrckhk3xed5m1yp FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+"
+"CREATE TABLE IF NOT EXISTS public.mt_qualification
+(
+    id bigint NOT NULL DEFAULT nextval('mt_qualification_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    code character varying(255) COLLATE pg_catalog.""default"" NOT NULL,
+    delete_flag boolean,
+    qualification_name character varying(50) COLLATE pg_catalog.""default"" NOT NULL,
+    created_by bigint,
+    last_modified_by bigint,
+    CONSTRAINT mt_qualification_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_267fl2mw1e8lmikj4ojso5lb5 UNIQUE (qualification_name),
+    CONSTRAINT uk_hwsfyo9a3e29kmt7u8dw5og3t UNIQUE (code),
+    CONSTRAINT fkd0g3yxdsdigkeslwyun53oph4 FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkkkk21lviqumxupge63qo1nk0i FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)"
+"CREATE TABLE IF NOT EXISTS public.mt_designation
+(
+    id bigint NOT NULL DEFAULT nextval('mt_designation_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    code character varying(50) COLLATE pg_catalog.""default"" NOT NULL,
+    delete_flag boolean,
+    designation_description character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    po_approval_authority boolean,
+    purchase_approval_authority boolean,
+    created_by bigint,
+    last_modified_by bigint,
+    CONSTRAINT mt_designation_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_3v7qsx60mcq2hmpd3cs77ocjt UNIQUE (code),
+    CONSTRAINT uk_cki5v8meohvo6ss1d22b1fclq UNIQUE (designation_description),
+    CONSTRAINT fk35l4fmbe36sh8qbun8a7uwbv5 FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkelp7647m4i7yc5iiqu1fw4gsm FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+"
+"CREATE TABLE IF NOT EXISTS public.mt_bank
+(
+    id bigint NOT NULL DEFAULT nextval('mt_bank_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    bank_name character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    code character varying(255) COLLATE pg_catalog.""default"",
+    delete_flag boolean,
+    created_by bigint,
+    last_modified_by bigint,
+    CONSTRAINT mt_bank_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_ju7adstfewi29w7asqcw2qyat UNIQUE (bank_name),
+    CONSTRAINT uk_ljijp0gkby7mi3y9h4nd5s7an UNIQUE (code),
+    CONSTRAINT fkff12ywd1ai8y1gngukcqy1cvh FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkrqp06lqwbles1j0s3y6rlk2x3 FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)"
+
+"CREATE TABLE IF NOT EXISTS public.mt_organization
+(
+    id bigint NOT NULL DEFAULT nextval('mt_organization_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    address character varying(500) COLLATE pg_catalog.""default"",
+    contact bigint,
+    delete_flag boolean,
+    email character varying(30) COLLATE pg_catalog.""default"",
+    organization_code character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    organization_name character varying(255) COLLATE pg_catalog.""default"" NOT NULL,
+    website character varying(200) COLLATE pg_catalog.""default"",
+    created_by bigint,
+    last_modified_by bigint,
+    area_id bigint,
+    city_id bigint NOT NULL,
+    country_id bigint NOT NULL,
+    district_id bigint NOT NULL,
+    pin_code_id bigint NOT NULL,
+    state_id bigint NOT NULL,
+    taluka_id bigint NOT NULL,
+    CONSTRAINT mt_organization_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_cvwp6d6ynhrgq7g3mjp8m0x6v UNIQUE (organization_name),
+    CONSTRAINT uk_k4vax9v3jj2w619jxax914wjw UNIQUE (organization_code),
+    CONSTRAINT fk1vhjuo6u0fa7cvovff2tw67cb FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk3cbxuta68s7pk56foijnmv6y9 FOREIGN KEY (taluka_id)
+        REFERENCES public.mt_taluka (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk704y0bak5lje2onit6vdou09g FOREIGN KEY (country_id)
+        REFERENCES public.mt_country (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkapdioig5yt3ic4dbi0n7o59w FOREIGN KEY (area_id)
+        REFERENCES public.mt_area (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkixl44iaqvoed44ne2n4b616uh FOREIGN KEY (pin_code_id)
+        REFERENCES public.mt_pin_code (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkjarjv4bwfet8q3e8u8ekrfflo FOREIGN KEY (city_id)
+        REFERENCES public.mt_city (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkr2p30yknypbu02kqh4gpah3ju FOREIGN KEY (district_id)
+        REFERENCES public.mt_district (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkrr8sldnyq85hnnd19mx204a5r FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkrsgk0vslw2yblvhb7mqgisnd2 FOREIGN KEY (state_id)
+        REFERENCES public.mt_state (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)"
+"CREATE TABLE IF NOT EXISTS public.mt_unit
+(
+    id bigint NOT NULL DEFAULT nextval('mt_unit_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    ipdbill_round_up boolean,
+    opdbill_round_up boolean,
+    ot_end_time time without time zone,
+    ot_start_time time without time zone,
+    pharmacy_bill_round_up boolean,
+    uhidprefix character varying(255) COLLATE pg_catalog.""default"" NOT NULL,
+    active boolean NOT NULL,
+    auto_lock_indent boolean,
+    billing_cash_limit double precision,
+    contact_no bigint,
+    delete_flag boolean,
+    discharge_approval_sequence_applicable boolean,
+    email_id character varying(255) COLLATE pg_catalog.""default"",
+    followup_days bigint,
+    is_collection_center_only boolean,
+    is_cradle_charges_applicable boolean,
+    is_general_instruction boolean,
+    is_investigation_allow boolean,
+    is_local_instruction boolean,
+    is_medical_college boolean NOT NULL,
+    is_out_sourced boolean,
+    is_prepaid boolean,
+    logo_image_path character varying(255) COLLATE pg_catalog.""default"",
+    max_emergency_assessment_time integer,
+    max_ipd_assessment_time integer,
+    nabh_valid_from timestamp without time zone,
+    nabh_valid_to timestamp without time zone,
+    nabl_valid_from timestamp without time zone,
+    nabl_valid_to timestamp without time zone,
+    no_followup_days bigint,
+    pan_card_amount_limit double precision,
+    pan_number character varying(255) COLLATE pg_catalog.""default"",
+    path_order_create boolean,
+    path_signature_authorization boolean,
+    pharmacy_cash_limit double precision,
+    pharmacy_contact bigint,
+    pharmacy_email character varying(30) COLLATE pg_catalog.""default"",
+    pharmacy_gst_no character varying(20) COLLATE pg_catalog.""default"",
+    pharmacy_license_no character varying(30) COLLATE pg_catalog.""default"",
+    pharmacy_logo_image_path character varying(255) COLLATE pg_catalog.""default"",
+    pharmacy_name character varying(200) COLLATE pg_catalog.""default"",
+    po_approval_sequence_applicable boolean,
+    print_case_paper boolean,
+    radio_order_create boolean,
+    set_rates_as_zero boolean,
+    trust_registration character varying(255) COLLATE pg_catalog.""default"",
+    unit_abbreviation character varying(15) COLLATE pg_catalog.""default"",
+    unit_address character varying(500) COLLATE pg_catalog.""default"",
+    unit_code character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    unit_gst_no character varying(20) COLLATE pg_catalog.""default"",
+    unit_name character varying(255) COLLATE pg_catalog.""default"" NOT NULL,
+    registration_no character varying(100) COLLATE pg_catalog.""default"" NOT NULL,
+    unit_website character varying(100) COLLATE pg_catalog.""default"",
+    created_by bigint,
+    last_modified_by bigint,
+    advance_type_id bigint,
+    area_id bigint,
+    city_id bigint,
+    client_id bigint,
+    country_id bigint,
+    district_id bigint,
+    organization_id bigint,
+    pin_code_id bigint,
+    state_id bigint,
+    taluka_id bigint,
+    ipd_advance_type_id bigint,
+    opd_advance_type_id bigint,
+    is_ipd_print_with_annexure boolean,
+    is_lab_technician_required boolean,
+    auto_patch_machine_values boolean,
+    is_mother_ans_child_care boolean,
+    currency character varying(255) COLLATE pg_catalog.""default"",
+    currency_description character varying(255) COLLATE pg_catalog.""default"",
+    biometric_limit integer,
+    is_group_wise_bill boolean,
+    is_mother_and_child_care boolean,
+    print_header_image_path character varying(255) COLLATE pg_catalog.""default"",
+    bed_release_at_allow_to_go boolean,
+    grade_wise_surgery_charges_applicable boolean,
+    CONSTRAINT mt_unit_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_g91valp2reei2fhx5dgwcdpxs UNIQUE (unit_name),
+    CONSTRAINT uk_hgemwebm6i08dnj4t5sw6l9ol UNIQUE (unit_code),
+    CONSTRAINT uk_ofpc5pxxf2hrd3kab8t4d7jq7 UNIQUE (unit_abbreviation),
+    CONSTRAINT fk19ghsc48eujnyemqc8ab64x0k FOREIGN KEY (client_id)
+        REFERENCES public.mt_client (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk29jkvbe04426ck708p4e0jml6 FOREIGN KEY (district_id)
+        REFERENCES public.mt_district (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk2bdkxnaybnq93wc3i2876aksa FOREIGN KEY (organization_id)
+        REFERENCES public.mt_organization (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk8bykvg9xoy2hpla23nk178vgb FOREIGN KEY (country_id)
+        REFERENCES public.mt_country (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk8rv5x38gkfbyfx1fknsph5fhk FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkcdi9xm30e1fui1q2w4vriawfw FOREIGN KEY (ipd_advance_type_id)
+        REFERENCES public.mt_advance_type_master (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fker3kwe6fud4w664bdnyub0y54 FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkfatrapv54oyjskks7hupkkfo2 FOREIGN KEY (area_id)
+        REFERENCES public.mt_area (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkg5nkw8sj6t5t44bh73qw670nc FOREIGN KEY (opd_advance_type_id)
+        REFERENCES public.mt_advance_type_master (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkg8axumyeu756nm7cgk5x628ii FOREIGN KEY (advance_type_id)
+        REFERENCES public.mt_advance_type_master (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkhw58kj0dg0dr2nfctvbebgvfk FOREIGN KEY (pin_code_id)
+        REFERENCES public.mt_pin_code (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkihifcwqsrr5444y5tdgo5k654 FOREIGN KEY (state_id)
+        REFERENCES public.mt_state (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkosy1i4xglh80doj9gxjckxqkd FOREIGN KEY (taluka_id)
+        REFERENCES public.mt_taluka (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fktfum335suluqlr8i7s5ff6y8t FOREIGN KEY (city_id)
+        REFERENCES public.mt_city (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+"
+"CREATE TABLE IF NOT EXISTS public.mt_department
+(
+    id bigint NOT NULL DEFAULT nextval('mt_department_id_seq'::regclass),
+    created_date timestamp without time zone NOT NULL,
+    last_modified_date timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    applicable_to character varying(255) COLLATE pg_catalog.""default"",
+    delete_flag boolean,
+    department_code character varying(50) COLLATE pg_catalog.""default"" NOT NULL,
+    department_constant character varying(255) COLLATE pg_catalog.""default"",
+    department_name character varying(200) COLLATE pg_catalog.""default"" NOT NULL,
+    dept_is_clinical boolean NOT NULL,
+    image_path character varying(255) COLLATE pg_catalog.""default"",
+    created_by bigint,
+    last_modified_by bigint,
+    CONSTRAINT mt_department_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_3a3xalk4krvcubib29ohtx58f UNIQUE (department_code),
+    CONSTRAINT uk_r1h56g77h3ltdhp77323rqy9l UNIQUE (department_name),
+    CONSTRAINT fk3yvixeqng83o843peotnqcadr FOREIGN KEY (created_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkq2got4tc1vgluu1fljctlk4r6 FOREIGN KEY (last_modified_by)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)"
+"CREATE TABLE IF NOT EXISTS public.mt_department_unit_mapping
+(
+    department_id bigint NOT NULL,
+    unit_id bigint NOT NULL,
+    applicable_for_allow_to_go_flag boolean,
+    applicable_for_discharge_approval boolean,
+    is_mandatory boolean,
+    is_notify boolean,
+    sequence integer,
+    is_appointment_booking boolean,
+    CONSTRAINT mt_department_unit_mapping_pkey PRIMARY KEY (department_id, unit_id),
+    CONSTRAINT fk4deokyd38vlvbe3iu084hqb6y FOREIGN KEY (department_id)
+        REFERENCES public.mt_department (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fksf99mv8rfftya1j5npbwficej FOREIGN KEY (unit_id)
+        REFERENCES public.mt_unit (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)"
+"CREATE TABLE IF NOT EXISTS public.employee_benefits_details
+(
+    id bigint NOT NULL DEFAULT nextval('employee_benefits_details_id_seq'::regclass),
+    benefit_auto_renew boolean,
+    benefit_carry_forward boolean,
+    credit_amount double precision,
+    credit_percentage double precision,
+    including_pharmacy boolean,
+    insurance_number bigint,
+    is_group boolean NOT NULL,
+    utilized_amount double precision,
+    valid_from date,
+    valid_till date,
+    benefit_type_id bigint NOT NULL,
+    employee_id bigint,
+    insurance_company_id bigint,
+    CONSTRAINT employee_benefits_details_pkey PRIMARY KEY (id),
+    CONSTRAINT fkcr2qcbdmvd9dxpcqamfmlu8bm FOREIGN KEY (benefit_type_id)
+        REFERENCES public.mt_employee_benefit_types (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkiv0gmlwgxycsdhh9vpaidn6ic FOREIGN KEY (employee_id)
+        REFERENCES public.employees (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkknv4101rd3vsnehv8f7a940nh FOREIGN KEY (insurance_company_id)
+        REFERENCES public.company (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+"
