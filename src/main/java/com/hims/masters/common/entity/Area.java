@@ -1,0 +1,35 @@
+package com.hims.masters.common.entity;
+
+import com.hims.masters.base.BaseEntity;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@Table(name = "mt_area")
+public class Area extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank(message = "Area code can not be blank")
+    @Column(name = "area_code", length = 100, unique = true)
+    private String areaCode;
+
+    @NotBlank(message = "Area name can not be blank")
+    @Column(name = "area_name", length = 100, unique = true)
+    private String areaName;
+
+    @NotNull(message = "active status can not be null")
+    private Boolean active = true;
+
+    private Boolean deleteFlag = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pincode_id")
+    private PinCode pinCode;
+}
