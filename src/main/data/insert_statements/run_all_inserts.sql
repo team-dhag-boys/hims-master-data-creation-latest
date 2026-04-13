@@ -1,7 +1,7 @@
--- Master script: run from this directory, e.g. psql -v ON_ERROR_STOP=1 -f run_all_inserts.sql
--- Requires existing row public.employees(id) = 1.
-
+-- Master script generated from common entities
+-- Entity path: C:\Users\ADMIN\IdeaProjects\hims-master-data-creation-latest\src\main\java\com\hims\masters\common\entity
 \set ON_ERROR_STOP on
+
 \echo 'Seeding mt_country...'
 \i mt_country_insert.sql
 
@@ -17,8 +17,8 @@
 \echo 'Seeding mt_city...'
 \i mt_city_insert.sql
 
-\echo 'Seeding mt_pin_code...'
-\i mt_pin_code_insert.sql
+\echo 'Seeding mt_pincode...'
+\i mt_pincode_insert.sql
 
 \echo 'Seeding mt_area...'
 \i mt_area_insert.sql

@@ -1,20 +1,21 @@
 -- Sample data for public.mt_area (15 rows)
+-- Entity source: Area.java; id is server-generated.
 -- Assumes public.employees.id = 1 exists for audit columns.
 
-INSERT INTO public.mt_area (created_date, last_modified_date, active, area, delete_flag, created_by, last_modified_by, pincode_id)
+INSERT INTO public.mt_area (created_date, last_modified_date, area_code, area_name, pincode_id, created_by, last_modified_by)
 VALUES
-(now(), now(), true, 'Kothrud', false, 1, 1, 1),
-(now(), now(), true, 'Andheri West', false, 1, 1, 2),
-(now(), now(), true, 'Downtown Houston', false, 1, 1, 3),
-(now(), now(), true, 'Indiranagar', false, 1, 1, 4),
-(now(), now(), true, 'Navrangpura', false, 1, 1, 5),
-(now(), now(), true, 'Marine Drive Kochi', false, 1, 1, 6),
-(now(), now(), true, 'T Nagar', false, 1, 1, 7),
-(now(), now(), true, 'Connaught Place', false, 1, 1, 8),
-(now(), now(), true, 'Hazratganj', false, 1, 1, 9),
-(now(), now(), true, 'Salt Lake', false, 1, 1, 10),
-(now(), now(), true, 'Santa Monica', false, 1, 1, 11),
-(now(), now(), true, 'Brooklyn Heights', false, 1, 1, 12),
-(now(), now(), true, 'Westminster Abbey Area', false, 1, 1, 13),
-(now(), now(), true, 'Old Town', false, 1, 1, 14),
-(now(), now(), true, 'Surfers Paradise', false, 1, 1, 15);
+(now(), now(), 'KOT', 'Kothrud', 1, 1, 1),
+(now(), now(), 'DWT', 'Downtown', 2, 1, 1),
+(now(), now(), 'WMS', 'Westminster', 3, 1, 1),
+(now(), now(), 'DWTN', 'Downtown Toronto', 4, 1, 1),
+(now(), now(), 'CBD', 'Sydney CBD', 5, 1, 1),
+(now(), now(), 'MIT', 'Mitte Center', 6, 1, 1),
+(now(), now(), 'LDF', 'La Défense Hub', 7, 1, 1),
+(now(), now(), 'AKB', 'Akihabara', 8, 1, 1),
+(now(), now(), 'MRN', 'Marina Bay', 9, 1, 1),
+(now(), now(), 'BJR', 'Burj Area', 10, 1, 1),
+(now(), now(), 'OLY', 'Olaya Business', 11, 1, 1),
+(now(), now(), 'THM', 'Thamel', 12, 1, 1),
+(now(), now(), 'GLS', 'Gulshan', 13, 1, 1),
+(now(), now(), 'SLV', 'Slave Island', 14, 1, 1),
+(now(), now(), 'GUL', 'Gulberg', 15, 1, 1);

@@ -1,423 +1,45 @@
 {
-  "tables_in_schema": [
-    "employee_benefits_details",
-    "mt_area",
-    "mt_bank",
-    "mt_blood_group",
-    "mt_city",
-    "mt_country",
-    "mt_department",
-    "mt_department_unit_mapping",
-    "mt_designation",
-    "mt_district",
-    "mt_employee_category",
-    "mt_employee_type",
-    "mt_marital_status",
-    "mt_nationality",
-    "mt_organization",
-    "mt_pin_code",
-    "mt_prefix",
-    "mt_qualification",
-    "mt_state",
-    "mt_taluka",
-    "mt_unit"
-  ],
+  "source": "entities",
+  "entity_path": "C:\\Users\\ADMIN\\IdeaProjects\\hims-master-data-creation-latest\\src\\main\\java\\com\\hims\\masters\\common\\entity",
   "tables_generated": [
     "mt_country",
     "mt_state",
     "mt_district",
     "mt_taluka",
     "mt_city",
-    "mt_pin_code",
-    "mt_area"
-  ],
-  "insert_order_topological": [
-    "mt_blood_group",
-    "mt_qualification",
-    "mt_bank",
-    "employee_benefits_details",
-    "mt_employee_type",
-    "mt_designation",
-    "mt_marital_status",
-    "mt_country",
-    "mt_prefix",
-    "mt_department",
-    "mt_nationality",
-    "mt_employee_category",
-    "mt_state",
-    "mt_district",
-    "mt_taluka",
-    "mt_city",
-    "mt_pin_code",
-    "mt_area",
-    "mt_organization",
-    "mt_unit",
-    "mt_department_unit_mapping"
-  ],
-  "insert_order": [
-    "mt_country",
-    "mt_state",
-    "mt_district",
-    "mt_taluka",
-    "mt_city",
-    "mt_pin_code",
+    "mt_pincode",
     "mt_area"
   ],
   "foreign_keys": [
     {
-      "table": "mt_employee_type",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_employee_type",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_employee_category",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_employee_category",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_employee_category",
-      "column": "employee_type_id",
-      "references": "mt_employee_type"
-    },
-    {
-      "table": "mt_prefix",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_prefix",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_prefix",
-      "column": "gender_prefix",
-      "references": "mt_gender"
-    },
-    {
-      "table": "mt_marital_status",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_marital_status",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_blood_group",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_blood_group",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_nationality",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_nationality",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_country",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_country",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_state",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_state",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_state",
-      "column": "country_id",
-      "references": "mt_country"
-    },
-    {
-      "table": "mt_district",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_district",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_district",
-      "column": "state_id",
-      "references": "mt_state"
-    },
-    {
-      "table": "mt_taluka",
-      "column": "district_id",
-      "references": "mt_district"
-    },
-    {
-      "table": "mt_taluka",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_taluka",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_city",
-      "column": "taluka_id",
-      "references": "mt_taluka"
-    },
-    {
-      "table": "mt_city",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_city",
-      "column": "state_id",
-      "references": "mt_state"
-    },
-    {
-      "table": "mt_city",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
       "table": "mt_area",
       "column": "pincode_id",
-      "references": "mt_pin_code"
+      "references": "mt_pincode"
     },
     {
-      "table": "mt_area",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_area",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_pin_code",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_pin_code",
-      "column": "city_id",
-      "references": "mt_city"
-    },
-    {
-      "table": "mt_pin_code",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_qualification",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_qualification",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_designation",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_designation",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_bank",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_bank",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_organization",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_organization",
+      "table": "mt_city",
       "column": "taluka_id",
       "references": "mt_taluka"
     },
     {
-      "table": "mt_organization",
-      "column": "country_id",
-      "references": "mt_country"
-    },
-    {
-      "table": "mt_organization",
-      "column": "area_id",
-      "references": "mt_area"
-    },
-    {
-      "table": "mt_organization",
-      "column": "pin_code_id",
-      "references": "mt_pin_code"
-    },
-    {
-      "table": "mt_organization",
-      "column": "city_id",
-      "references": "mt_city"
-    },
-    {
-      "table": "mt_organization",
-      "column": "district_id",
-      "references": "mt_district"
-    },
-    {
-      "table": "mt_organization",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_organization",
+      "table": "mt_district",
       "column": "state_id",
       "references": "mt_state"
     },
     {
-      "table": "mt_unit",
-      "column": "client_id",
-      "references": "mt_client"
-    },
-    {
-      "table": "mt_unit",
-      "column": "district_id",
-      "references": "mt_district"
-    },
-    {
-      "table": "mt_unit",
-      "column": "organization_id",
-      "references": "mt_organization"
-    },
-    {
-      "table": "mt_unit",
-      "column": "country_id",
-      "references": "mt_country"
-    },
-    {
-      "table": "mt_unit",
-      "column": "created_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_unit",
-      "column": "ipd_advance_type_id",
-      "references": "mt_advance_type_master"
-    },
-    {
-      "table": "mt_unit",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_unit",
-      "column": "area_id",
-      "references": "mt_area"
-    },
-    {
-      "table": "mt_unit",
-      "column": "opd_advance_type_id",
-      "references": "mt_advance_type_master"
-    },
-    {
-      "table": "mt_unit",
-      "column": "advance_type_id",
-      "references": "mt_advance_type_master"
-    },
-    {
-      "table": "mt_unit",
-      "column": "pin_code_id",
-      "references": "mt_pin_code"
-    },
-    {
-      "table": "mt_unit",
-      "column": "state_id",
-      "references": "mt_state"
-    },
-    {
-      "table": "mt_unit",
-      "column": "taluka_id",
-      "references": "mt_taluka"
-    },
-    {
-      "table": "mt_unit",
+      "table": "mt_pincode",
       "column": "city_id",
       "references": "mt_city"
     },
     {
-      "table": "mt_department",
-      "column": "created_by",
-      "references": "employees"
+      "table": "mt_state",
+      "column": "country_id",
+      "references": "mt_country"
     },
     {
-      "table": "mt_department",
-      "column": "last_modified_by",
-      "references": "employees"
-    },
-    {
-      "table": "mt_department_unit_mapping",
-      "column": "department_id",
-      "references": "mt_department"
-    },
-    {
-      "table": "mt_department_unit_mapping",
-      "column": "unit_id",
-      "references": "mt_unit"
-    },
-    {
-      "table": "employee_benefits_details",
-      "column": "benefit_type_id",
-      "references": "mt_employee_benefit_types"
-    },
-    {
-      "table": "employee_benefits_details",
-      "column": "employee_id",
-      "references": "employees"
-    },
-    {
-      "table": "employee_benefits_details",
-      "column": "insurance_company_id",
-      "references": "company"
+      "table": "mt_taluka",
+      "column": "district_id",
+      "references": "mt_district"
     }
   ]
 }

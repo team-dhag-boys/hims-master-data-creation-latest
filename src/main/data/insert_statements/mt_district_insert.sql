@@ -1,20 +1,21 @@
 -- Sample data for public.mt_district (15 rows)
+-- Entity source: District.java; id is server-generated.
 -- Assumes public.employees.id = 1 exists for audit columns.
 
-INSERT INTO public.mt_district (created_date, last_modified_date, active, delete_flag, district_code, district_name, created_by, last_modified_by, state_id)
+INSERT INTO public.mt_district (created_date, last_modified_date, district_code, district_name, state_id, created_by, last_modified_by)
 VALUES
-(now(), now(), true, false, 'PUNE', 'Pune', 1, 1, 1),
-(now(), now(), true, false, 'MUM', 'Mumbai Suburban', 1, 1, 2),
-(now(), now(), true, false, 'HOU', 'Houston', 1, 1, 4),
-(now(), now(), true, false, 'BLR', 'Bengaluru Urban', 1, 1, 3),
-(now(), now(), true, false, 'AMD', 'Ahmedabad', 1, 1, 4),
-(now(), now(), true, false, 'ERN', 'Ernakulam', 1, 1, 5),
-(now(), now(), true, false, 'CHN', 'Chennai', 1, 1, 6),
-(now(), now(), true, false, 'NDL', 'New Delhi', 1, 1, 7),
-(now(), now(), true, false, 'LKO', 'Lucknow', 1, 1, 8),
-(now(), now(), true, false, 'KOL', 'Kolkata', 1, 1, 9),
-(now(), now(), true, false, 'LAX', 'Los Angeles', 1, 1, 10),
-(now(), now(), true, false, 'BRK', 'Brooklyn', 1, 1, 11),
-(now(), now(), true, false, 'LND', 'London', 1, 1, 12),
-(now(), now(), true, false, 'EDB', 'Edinburgh', 1, 1, 13),
-(now(), now(), true, false, 'BNE', 'Brisbane', 1, 1, 14);
+(now(), now(), 'PUN', 'Pune District', 1, 1, 1),
+(now(), now(), 'HCO', 'Harris County', 2, 1, 1),
+(now(), now(), 'GLN', 'Greater London', 3, 1, 1),
+(now(), now(), 'TOR', 'Toronto District', 4, 1, 1),
+(now(), now(), 'SYD', 'Sydney District', 5, 1, 1),
+(now(), now(), 'STM', 'Stuttgart District', 6, 1, 1),
+(now(), now(), 'PAR', 'Paris District', 7, 1, 1),
+(now(), now(), 'TKC', 'Tokyo Central', 8, 1, 1),
+(now(), now(), 'SGC', 'Singapore Central', 9, 1, 1),
+(now(), now(), 'DBD', 'Dubai District', 10, 1, 1),
+(now(), now(), 'RYD', 'Riyadh District', 11, 1, 1),
+(now(), now(), 'KTM', 'Kathmandu District', 12, 1, 1),
+(now(), now(), 'DHK', 'Dhaka District', 13, 1, 1),
+(now(), now(), 'CMB', 'Colombo District', 14, 1, 1),
+(now(), now(), 'LHR', 'Lahore District', 15, 1, 1);

@@ -1,12 +1,12 @@
 ---
-description: Generate FK-safe sample SQL from schema with dependency checks
+description: Generate FK-safe sample SQL from entities with dependency checks
 alwaysApply: true
 ---
 
-# Schema-Aware SQL Seeding Rule
+# Entity-Aware SQL Seeding Rule
 
-- Always parse `src/main/data/table_schema.txt` before generating or changing insert scripts.
-- Detect for every table: primary key, foreign keys, nullability, unique constraints, and default/auto-generated columns.
+- Always parse entities in `src/main/java/com/hims/masters/common/entity` before generating or changing insert scripts.
+- Detect for every entity/table: primary key, foreign keys, nullability, unique constraints, and default/auto-generated columns.
 - Build dependency graph from foreign keys and generate parent-to-child insert order.
 - Never generate orphan rows: each FK value must exist in already-seeded parent data.
 - Before writing SQL files, validate generated rows against parsed constraints (UNIQUE, NOT NULL, FK order).
@@ -21,10 +21,12 @@ alwaysApply: true
 ## Data Quality Requirements
 
 - Generate realistic domain values (e.g., India -> Maharashtra -> Pune).
+- Use realistic, domain-meaningful values for every business column; avoid placeholder patterns like `XXX001`, `table_col_1`, or generic dummy text.
 - Respect uniqueness constraints; avoid duplicate values in unique columns.
 - When real-world values conflict with DB uniqueness rules, generate deterministic but unique placeholders.
 - Use valid types for date/time/boolean/numeric columns.
 - For audit timestamp columns `created_date` and `last_modified_date`, always use `now()`.
+- In every generated INSERT, put `created_date` and `last_modified_date` as the first two columns, both set to `now()`.
 - For nullable FKs, use `NULL` only when relationship is optional and meaningful.
 
 ## Execution Artifacts
@@ -32,9 +34,22 @@ alwaysApply: true
 - Create one file per table: `<table_name>_insert.sql`.
 - Create/update `run_all_inserts.sql` in dependency order.
 - Create/update `schema_dependency_report.json` with table list, FK edges, and insert order.
+- Create/update `relationship_maintain_report.json` for business sequence mapping.
+
+## Location Hierarchy Scope
+
+- Prioritize and generate data for this sequence:
+  1) `mt_country`
+  2) `mt_state` -> country
+  3) `mt_district` -> state
+  4) `mt_taluka` -> district
+  5) `mt_city` -> taluka (and state dependency by hierarchy context)
+  6) `mt_pincode` -> city
+  7) `mt_area` -> pincode
+- If new entity classes are added and belong to this hierarchy chain, auto-include them by re-parsing entities and recomputing dependencies.
 
 ## Change Safety
 
-- If new tables are added, re-parse schema and include them automatically.
+- If new entities/tables are added, re-parse entities and include them automatically.
 - If a circular dependency exists, use staged inserts (nullable/deferred strategy) and document handling.
 - Do not produce SQL that violates FK, PK, UNIQUE, or NOT NULL constraints.

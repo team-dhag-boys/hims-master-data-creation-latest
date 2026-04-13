@@ -1,0 +1,58 @@
+{
+  "sequence": [
+    {
+      "order": 1,
+      "table": "mt_country",
+      "depends_on": []
+    },
+    {
+      "order": 2,
+      "table": "mt_state",
+      "depends_on": [
+        "mt_country"
+      ]
+    },
+    {
+      "order": 3,
+      "table": "mt_district",
+      "depends_on": [
+        "mt_state"
+      ]
+    },
+    {
+      "order": 4,
+      "table": "mt_taluka",
+      "depends_on": [
+        "mt_district"
+      ]
+    },
+    {
+      "order": 5,
+      "table": "mt_city",
+      "depends_on": [
+        "mt_taluka",
+        "mt_state (derived via taluka->district->state)"
+      ]
+    },
+    {
+      "order": 6,
+      "table": "mt_pincode",
+      "depends_on": [
+        "mt_city"
+      ]
+    },
+    {
+      "order": 7,
+      "table": "mt_area",
+      "depends_on": [
+        "mt_pincode"
+      ]
+    }
+  ],
+  "constraints_considered": [
+    "PK(id auto-generated)",
+    "FK(@JoinColumn)",
+    "NOT NULL(@NotNull)",
+    "UNIQUE(@Column(unique=true))"
+  ]
+}
